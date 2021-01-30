@@ -49,9 +49,4 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
         recipes = newData.results
         diffUtilResult.dispatchUpdatesTo(this)
     }
-        // Removed after add recipeDiffUtil
-        // notifyDataSetChanged() check all the list data everytime
-        // , even its the same.
-        // notifyDataSetChanged()
-
 }
