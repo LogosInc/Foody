@@ -12,7 +12,6 @@ import com.example.foody.databinding.FragmentFavoriteRecipesBinding
 import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_favorite_recipes.view.*
 
 @AndroidEntryPoint
 class FavoriteRecipesFragment : Fragment() {
@@ -25,7 +24,7 @@ class FavoriteRecipesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         //val view = inflater.inflate(R.layout.fragment_favorite_recipes, container, false)
 
@@ -73,8 +72,8 @@ class FavoriteRecipesFragment : Fragment() {
             .show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
         mAdapter.clearContextualActionMode()
     }

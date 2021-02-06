@@ -1,6 +1,5 @@
 package com.example.foody.adpaters
 
-import android.app.ProgressDialog.show
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -14,7 +13,6 @@ import com.example.foody.ui.fragments.favorites.FavoriteRecipesFragmentDirection
 import com.example.foody.util.RecipesDiffUtil
 import com.example.foody.viewmodels.MainViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.favorite_recipes_row_layout.view.*
 
 class FavoriteRecipesAdapter(
     private val requireActivity: FragmentActivity,
@@ -32,7 +30,7 @@ class FavoriteRecipesAdapter(
     private var myViewHolder = arrayListOf<MyViewHolder>()
     private var favoriteRecipes = emptyList<FavoritesEntity>()
 
-    class MyViewHolder(private val binding: FavoriteRecipesRowLayoutBinding) :
+    class MyViewHolder(val binding: FavoriteRecipesRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(favoritesEntity: FavoritesEntity) {
@@ -60,7 +58,7 @@ class FavoriteRecipesAdapter(
         holder.bind(currentRecipe)
 
         // Single Click Listener
-        holder.itemView.favoriteRecipesRowLayout.setOnClickListener {
+        holder.binding.favoriteRecipesRowLayout.setOnClickListener {
             if (multiSelection) {
                 applySelection(holder, currentRecipe)
             } else {
@@ -73,15 +71,15 @@ class FavoriteRecipesAdapter(
         }
 
         // Long Click Listener
-        holder.itemView.favoriteRecipesRowLayout.setOnLongClickListener {
+        holder.binding.favoriteRecipesRowLayout.setOnLongClickListener {
             if (!multiSelection) {
                 multiSelection = true
                 requireActivity.startActionMode(this)
                 applySelection(holder, currentRecipe)
                 true
             } else {
-                multiSelection = false
-                false
+                applySelection(holder, currentRecipe)
+                true
             }
 
         }
@@ -100,13 +98,13 @@ class FavoriteRecipesAdapter(
     }
 
     private fun changeRecipesStyle(holder: MyViewHolder, backgroundColor: Int, strokeColor: Int) {
-        holder.itemView.favoriteRecipesRowLayout.setBackgroundColor(
+        holder.binding.favoriteRecipesRowLayout.setBackgroundColor(
             ContextCompat.getColor(
                 requireActivity,
                 backgroundColor
             )
         )
-        holder.itemView.favorite_row_cardView.strokeColor =
+        holder.binding.favoriteRowCardView.strokeColor =
             ContextCompat.getColor(requireActivity, strokeColor)
     }
 
@@ -114,6 +112,7 @@ class FavoriteRecipesAdapter(
         when (selectedRecipes.size) {
             0 -> {
                 mActionMode.finish()
+                multiSelection = false
             }
             1 -> {
                 mActionMode.title = "${selectedRecipes.size} item selected"
